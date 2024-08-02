@@ -3,6 +3,7 @@ import SideBar from "@/components/sidebar";
 import Cashier from "./cashier";
 import { useState } from "react";
 import ManageItems from "./manage-items";
+import Dashboard from "./dashboard";
 
 export default function Main(){
     const [index, setIndex] = useState(0);
@@ -13,7 +14,7 @@ export default function Main(){
             case 1:
                 return <ManageItems/>;
             case 2:
-                return null;
+                return <Dashboard/>;
             default:
                 return null;
         }
