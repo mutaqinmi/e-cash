@@ -21,6 +21,7 @@ export default function Main(){
     }
 
     return <>
+        <div className="w-screen h-screen fixed z-50 bg-white flex justify-center items-center sm:hidden">Open in desktop for best experience.</div>
         <SideBar index={setIndex}/>
         <div className="pl-28 pt-6 pr-6 w-full flex justify-center">
             <div className="w-4/5">{body()}</div>

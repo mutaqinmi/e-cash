@@ -13,7 +13,7 @@ export default function AddItems(props: {show: boolean; setShow: Dispatch<SetSta
             <X className="absolute top-5 right-5" onClick={() => {props.setShow(false)}}/>
             <h2 className="text-xl font-semibold">Tambah Barang</h2>
             <span className="text-sm">Tambahkan barang ke toko Anda.</span>
-            <form className="mt-6">
+            <div className="mt-6">
                 <div>
                     <label htmlFor="file" className="w-full p-6 border-2 border-dashed border-black flex flex-col justify-center items-center gap-2 rounded-lg hover:border-blue-500 hover:text-blue-500"><CloudArrowUp size={40}/><span>Upload Gambar</span></label>
                     <input type="file" name="file" id="file" className="hidden"/>
@@ -22,7 +22,7 @@ export default function AddItems(props: {show: boolean; setShow: Dispatch<SetSta
                 <InputText label="Stok" value={setStock}/>
                 <InputText label="Harga" value={setPrice}/>
                 <Button label="Tambah Barang" className="mt-6"/>
-            </form>
+            </div>
         </div>
     </div>
 }

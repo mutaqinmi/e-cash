@@ -1,11 +1,9 @@
-export default function TableHead(){
+export default function TableHead(props: {title: string[]}){
     return <thead>
         <tr>
-            <th className="text-center">ID</th>
-            <th className="text-center" colSpan={2}>Nama Produk</th>
-            <th className="text-center">Harga</th>
-            <th className="text-center">Jumlah</th>
-            <th className="text-center">Total Harga</th>
+            {props.title.map((items) => {
+                return <th className="text-center text-gray-400 py-2" colSpan={items.includes("Nama") ? 2 : 1}>{items}</th>
+            })}
         </tr>
     </thead>
 }

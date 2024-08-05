@@ -1,7 +1,7 @@
 import PaymentInfo from "@/components/payment-info";
 import Search from "@/components/search";
 import TableHead from "@/components/table-head";
-import TableRow from "@/components/table-row";
+import TableRow from "@/components/table-row-cashier";
 
 export default function Cashier(){
     return <>
@@ -10,7 +10,7 @@ export default function Cashier(){
             <div className="w-full h-fit p-4 col-span-2 rounded-lg shadow-lg">
                 <div className="mt-4">
                     <table className="w-full table-auto border-collapse">
-                        <TableHead/>
+                        <TableHead title={['ID', 'Nama Produk', 'Harga', 'Jumlah', 'Total Harga']}/>
                         <tbody>
                             <TableRow id={1} name="Kopi" price={10000} total={20000}/>
                         </tbody>
