@@ -4,14 +4,17 @@ import SegmentedButton from "@/components/segmented-button";
 import { useState } from "react";
 import InputDate from "@/components/input-date";
 import { LineChart } from "@/components/line-chart";
-import { PieCharts } from "@/components/pie-chart";
 import TableHead from "@/components/table-head";
 import TableRow from "@/components/table-row";
+import Button from "@/components/button";
+import OutlinedButton from "@/components/outlined-button";
+import DetailTransaction from "@/components/detail-transaction";
 
 export default function Dashboard(){
     const [period, setPeriod] = useState(3);
+    const [showDetail, setShowDetail] = useState(false);
     return <>
-        <div className="flex justify-between items-center sticky top-0 bg-white py-4 z-50">
+        <div className="flex justify-between items-center sticky top-0 bg-white py-4 z-40">
             <div>
                 <SegmentedButton label="6 bulan" active={period === 0 ? true : false} onClick={() => {setPeriod(0)}}/>
                 <SegmentedButton label="1 bulan" active={period === 1 ? true : false} onClick={() => {setPeriod(1)}}/>
@@ -27,21 +30,33 @@ export default function Dashboard(){
         </div>
         <div className="mt-6 grid grid-cols-3 gap-6">
             <LineChart/>
-            {/* <PieCharts/> */}
-            <div className="bg-red-500 h-72 col-span-1 p-4 rounded-xl shadow-lg"></div>
+            <div className="col-span-1">
+                <div className="h-fit p-8 rounded-xl shadow-lg mb-6">
+                    <h2 className="text-2xl font-semibold">Hai, Ilham!</h2>
+                    <span className="text-sm">Semangat menjalani harimu hari ini!</span>
+                </div>
+                <div className="h-fit p-8 rounded-xl shadow-lg">
+                    <h2 className="text-2xl font-semibold">Laporan</h2>
+                    <span className="text-sm">Unduh laporan pendapatan.</span>
+                    <Button label="Unduh laporan hari ini" className="mt-8"/>
+                    <span className="text-center w-full block my-3 text-sm opacity-50">atau</span>
+                    <OutlinedButton label="Unduh berdasarkan waktu"/>
+                </div>
+            </div>
         </div>
         <div className="mt-6 p-8 rounded-xl shadow-lg">
-            <h2 className="text-xl font-bold">Riwayat Transaksi</h2>
+            <h2 className="text-2xl font-bold">Riwayat Transaksi</h2>
             <span className="text-sm">Menampilkan riwayat transaksi berdasarkan rentang waktu.</span>
             <table className="w-full table-auto border-collapse mt-6">
-                <TableHead title={['ID Transaksi', 'Tanggal', 'Total Harga']}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']}/>
+                <TableHead title={['ID Transaksi', 'Waktu', 'Total Harga']}/>
+                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
             </table>
         </div>
+        <DetailTransaction show={showDetail} setshow={setShowDetail}/>
     </>
 }

@@ -42,7 +42,7 @@ const chartConfig = {
 
 export function LineChart() {
   return (
-    <Card className="col-span-2">
+    <Card className="col-span-2 shadow-lg border-none">
       <CardHeader>
         <CardTitle>Statistik Pendapatan</CardTitle>
         <CardDescription>

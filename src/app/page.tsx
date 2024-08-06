@@ -7,6 +7,8 @@ import Dashboard from "./dashboard";
 
 export default function Main(){
     const [index, setIndex] = useState(0);
+    const [expand, setExpand] = useState(false);
+
     const body = () => {
         switch (index){
             case 0:
@@ -22,9 +24,9 @@ export default function Main(){
 
     return <>
         <div className="w-screen h-screen fixed z-50 bg-white flex justify-center items-center sm:hidden">Open in desktop for best experience.</div>
-        <SideBar index={setIndex}/>
-        <div className="pl-28 pt-6 pr-6 w-full flex justify-center">
-            <div className="w-4/5">{body()}</div>
+        <SideBar index={setIndex} expand={setExpand} expanded={expand}/>
+        <div className={`${expand ?  'pl-80' : 'pl-28'} transition-all ease-in-out duration-300 pt-6 pr-6 w-full flex justify-center`}>
+            <div className={expand ? 'w-11/12' : 'w-4/5'}>{body()}</div>
         </div>
     </>
 }
