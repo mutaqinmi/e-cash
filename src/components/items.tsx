@@ -1,8 +1,11 @@
 import numberFormatter from "@/app/number-formatter";
-import { Pencil, Trash } from "@phosphor-icons/react";
+import { DotsThreeOutlineVertical, Pencil, Trash } from "@phosphor-icons/react";
+import { useState } from "react";
 
 export default function Items(props: {id: string; name: string; price: number; stock: number; category: string}){
-    return <div className="p-4 rounded-lg shadow-lg flex gap-4 justify-between">
+    const [showContext, setShowContext] = useState(false);
+
+    return <div className="p-4 rounded-lg shadow-lg flex gap-4 justify-between relative">
         <div className="flex gap-4">
             <div className="bg-gray-400 w-32 h-32 rounded-md"></div>
             <div className="flex flex-col justify-between">
@@ -15,11 +18,12 @@ export default function Items(props: {id: string; name: string; price: number; s
             </div>
         </div>
         <div className="flex flex-col items-end justify-between">
-            <div className="flex gap-2">
-                <button className="p-2 text-white rounded-lg bg-blue-500 hover:bg-blue-700"><Pencil size={20}/></button>
-                <button className="p-2 text-white rounded-lg bg-red-500 hover:bg-red-700"><Trash size={20}/></button>
-            </div>
+            <DotsThreeOutlineVertical size={20} onClick={() => setShowContext(!showContext)}/>
             <span>Stok: {props.stock}</span>
+        </div>
+        <div className={`w-fit bg-white flex-col absolute top-4 right-12 ${showContext ? 'flex' : 'hidden'}`}>
+            <button className="p-2 w-full hover:bg-gray-300 select-none">Edit Barang</button>
+            <button className="p-2 w-full hover:bg-gray-300 text-red-500 select-none">Hapus Barang</button>
         </div>
     </div>
 }

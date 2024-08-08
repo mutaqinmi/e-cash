@@ -19,7 +19,7 @@ export default function SignIn(){
                 <InputPassword label="Password" value={setPassword}/>
             </div>
             <div className="mt-12">
-                <Button label="Masuk" onClick={() => {alert(`Username: ${username}\nPassword: ${password}`)}} disabled={username != '' && password != '' ? false : true}/>
+                <Button label="Masuk" onClick={() => {alert(`Username: ${username}\nPassword: ${password}`)}}/>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ import Cashier from "./cashier";
 import { useState } from "react";
 import ManageItems from "./manage-items";
 import Dashboard from "./dashboard";
+import ManageEmployee from "./manage-employee";
 
 export default function Main(){
     const [index, setIndex] = useState(0);
@@ -17,6 +18,8 @@ export default function Main(){
                 return <ManageItems/>;
             case 2:
                 return <Dashboard/>;
+            case 3:
+                return <ManageEmployee/>
             default:
                 return null;
         }

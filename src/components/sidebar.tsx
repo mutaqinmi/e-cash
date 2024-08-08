@@ -1,5 +1,5 @@
 'use client'
-import { Basket, CaretLeft, CaretRight, ChartBar, Package, SignOut, UserCircle } from "@phosphor-icons/react";
+import { Basket, CaretLeft, CaretRight, ChartBar, Package, SignOut, UserList, UserCircle } from "@phosphor-icons/react";
 import IconButton from "./icon-button";
 import HDivider from "./h-divider";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -15,6 +15,7 @@ export default function SideBar(props: {index: Dispatch<SetStateAction<number>>;
             <IconButton className={`${props.expanded ? 'justify-between' : 'justify-center'}`} active={index === 0 ? true : false} onClick={() => {setIndex(0); props.index(0)}}><div className="flex justify-center items-center"><Basket size={28}/><span className={`ml-4 ${props.expanded ? 'flex' : 'hidden'}`}>Kasir</span></div><CaretRight weight="bold" size={14} className={props.expanded && index === 0 ? 'flex' : 'hidden'}/></IconButton>
             <IconButton className={`${props.expanded ? 'justify-between' : 'justify-center'}`} active={index === 1 ? true : false} onClick={() => {setIndex(1); props.index(1)}}><div className="flex justify-center items-center"><Package size={28}/><span className={`ml-4 ${props.expanded ? 'flex' : 'hidden'}`}>Produk</span></div><CaretRight weight="bold" size={14} className={props.expanded && index === 1 ? 'flex' : 'hidden'}/></IconButton>
             <IconButton className={`${props.expanded ? 'justify-between' : 'justify-center'}`} active={index === 2 ? true : false} onClick={() => {setIndex(2); props.index(2)}}><div className="flex justify-center items-center"><ChartBar size={28}/><span className={`ml-4 ${props.expanded ? 'flex' : 'hidden'}`}>Dashboard</span></div><CaretRight weight="bold" size={14} className={props.expanded && index === 2 ? 'flex' : 'hidden'}/></IconButton>
+            <IconButton className={`${props.expanded ? 'justify-between' : 'justify-center'}`} active={index === 3 ? true : false} onClick={() => {setIndex(3); props.index(3)}}><div className="flex justify-center items-center"><UserList size={28}/><span className={`ml-4 ${props.expanded ? 'flex' : 'hidden'}`}>Petugas</span></div><CaretRight weight="bold" size={14} className={props.expanded && index === 3 ? 'flex' : 'hidden'}/></IconButton>
         </div>
         <IconButton className={`${props.expanded ? 'justify-between' : 'justify-center'}`} active={false} onClick={() => {}}><div className="flex justify-center items-center"><SignOut size={28}/><span className={`ml-4 ${props.expanded ? 'flex' : 'hidden'}`}>Keluar</span></div><CaretRight weight="bold" size={14} className={props.expanded ? 'flex' : 'hidden'}/></IconButton>
     </div>

@@ -1,12 +1,14 @@
 import { sql } from 'drizzle-orm';
-import { integer, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 export const employee = pgTable('employee', {
     employee_id: serial('employee_id').primaryKey(),
+    type: varchar('type', {length: 50}),
     username: varchar('username', {length: 50}),
     password: varchar('password', {length: 255}),
     name: varchar('name', {length: 50}),
     phone: varchar('phone', {length: 20}),
+    status: boolean('status').default(false),
 })
 
 export const transactions = pgTable('transactions', {
