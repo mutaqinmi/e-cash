@@ -2,7 +2,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 
-export default function InputPassword(props: {label: string, value: Dispatch<SetStateAction<string>>}){
+export default function InputPassword(props: {label: string, value: Dispatch<SetStateAction<string>>}) {
     const [focus, setFocus] = useState(false);
     const [type, setType] = useState('password');
     const [value, setValue] = useState('');

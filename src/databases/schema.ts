@@ -1,6 +1,14 @@
 import { sql } from 'drizzle-orm';
 import { boolean, integer, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
 
+export const token = pgTable('token', {
+    token_id: serial('token_id').primaryKey(),
+    token: varchar('token', {length: 255}),
+    employee: integer('employee').references(() => employee.employee_id),
+    created_at: timestamp('created_at', {withTimezone: true}).default(sql`now()`),
+    expired_at: timestamp('expired_at', {withTimezone: true}).default(sql`now() + interval '1 day'`),
+})
+
 export const employee = pgTable('employee', {
     employee_id: serial('employee_id').primaryKey(),
     type: varchar('type', {length: 50}),
@@ -31,4 +39,5 @@ export const products = pgTable('products', {
     product_name: varchar('product_name', {length: 50}),
     price: integer('price').default(0),
     stock: integer('stock').default(0),
+    product_image: varchar('product_image', {length: 255}).default('product.png'),
 })

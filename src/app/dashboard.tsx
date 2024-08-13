@@ -14,7 +14,7 @@ export default function Dashboard(){
     const [period, setPeriod] = useState(3);
     const [showDetail, setShowDetail] = useState(false);
     return <>
-        <div className="flex justify-between items-center sticky top-0 bg-white py-4 z-40">
+        <div className="flex justify-between items-center bg-white z-40">
             <div>
                 <SegmentedButton label="6 bulan" active={period === 0 ? true : false} onClick={() => {setPeriod(0)}}/>
                 <SegmentedButton label="1 bulan" active={period === 1 ? true : false} onClick={() => {setPeriod(1)}}/>

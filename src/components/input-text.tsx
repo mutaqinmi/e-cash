@@ -1,7 +1,7 @@
 'use client'
 import { Dispatch, SetStateAction, useState } from "react";
 
-export default function InputText(props: {label: string; value: Dispatch<SetStateAction<string>>}){
+export default function InputText(props: {label: string; value: Dispatch<SetStateAction<string>>}) {
     const [focus, setFocus] = useState(false);
     const [value, setValue] = useState('');
 
