@@ -11,8 +11,8 @@ export default function Main(){
     const route = useRouter();
     const [index, setIndex] = useState(0);
     const [expand, setExpand] = useState(false);
-    const token = window.localStorage.getItem("token");
-    
+    const token = typeof window !== "undefined" ? window.localStorage.getItem('token') : null;
+
     const body = () => {
         switch (index){
             case 0:

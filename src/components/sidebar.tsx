@@ -2,10 +2,32 @@
 import { Basket, CaretLeft, CaretRight, ChartBar, Package, SignOut, UserList, UserCircle } from "@phosphor-icons/react";
 import IconButton from "./icon-button";
 import HDivider from "./h-divider";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function SideBar(props: {index: Dispatch<SetStateAction<number>>; expand: Dispatch<SetStateAction<boolean>>; expanded: boolean}) {
+    const route = useRouter();
     const [index, setIndex] = useState(0);
+    const token = typeof window !== "undefined" ? window.localStorage.getItem('token') : null;
+
+    const signOut = useCallback(async (token: string) => {
+        return await axios.get('http://localhost:3000/api/auth/signout', {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            }
+        });
+    }, [])
+
+    const signOutHandler = () => {
+        const confirmExit = confirm('Apakah anda yakin ingin keluar?');
+        if(!confirmExit) return;
+        signOut(token!).then((res) => {
+            typeof window !== 'undefined' ? window.localStorage.removeItem('token') : null;
+            route.push('/signin');
+        })
+    }
 
     return <div className={`transition-all ease-in-out duration-200 bg-white fixed top-6 bottom-6 left-6 rounded-xl shadow-lg py-4 px-4 flex flex-col justify-between z-40 ${props.expanded ? 'w-60 items-start' : 'w-fit items-center'}`}>
         <div className="absolute top-1/2 -translate-y-1/2 -right-10 px-2 py-6 bg-white rounded-lg shadow-lg" onClick={() => {props.expanded ? props.expand(false) : props.expand(true)}}>{props.expanded ? <CaretLeft weight={'bold'}/> : <CaretRight weight={'bold'}/>}</div>
@@ -17,6 +39,6 @@ export default function SideBar(props: {index: Dispatch<SetStateAction<number>>;
             <IconButton className={`${props.expanded ? 'justify-between' : 'justify-center'}`} active={index === 2 ? true : false} onClick={() => {setIndex(2); props.index(2)}}><div className="flex justify-center items-center"><ChartBar size={28}/><span className={`ml-4 ${props.expanded ? 'flex' : 'hidden'}`}>Dashboard</span></div><CaretRight weight="bold" size={14} className={props.expanded && index === 2 ? 'flex' : 'hidden'}/></IconButton>
             <IconButton className={`${props.expanded ? 'justify-between' : 'justify-center'}`} active={index === 3 ? true : false} onClick={() => {setIndex(3); props.index(3)}}><div className="flex justify-center items-center"><UserList size={28}/><span className={`ml-4 ${props.expanded ? 'flex' : 'hidden'}`}>Petugas</span></div><CaretRight weight="bold" size={14} className={props.expanded && index === 3 ? 'flex' : 'hidden'}/></IconButton>
         </div>
-        <IconButton className={`${props.expanded ? 'justify-between' : 'justify-center'}`} active={false} onClick={() => {}}><div className="flex justify-center items-center"><SignOut size={28}/><span className={`ml-4 ${props.expanded ? 'flex' : 'hidden'}`}>Keluar</span></div><CaretRight weight="bold" size={14} className={props.expanded ? 'flex' : 'hidden'}/></IconButton>
+        <IconButton className={`${props.expanded ? 'justify-between' : 'justify-center'}`} active={false} onClick={() => signOutHandler()}><div className="flex justify-center items-center"><SignOut size={28}/><span className={`ml-4 ${props.expanded ? 'flex' : 'hidden'}`}>Keluar</span></div><CaretRight weight="bold" size={14} className={props.expanded ? 'flex' : 'hidden'}/></IconButton>
     </div>
 }
