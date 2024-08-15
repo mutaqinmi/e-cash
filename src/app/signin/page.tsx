@@ -2,9 +2,10 @@
 import InputText from "@/components/input-text";
 import InputPassword from "@/components/input-password";
 import Button from "@/components/button";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { isUserLoggedIn, login } from "@/utils/auth";
 
 export default function SignIn(){
     const route = useRouter();
@@ -12,10 +13,9 @@ export default function SignIn(){
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [buttonClicked, setButtonClicked] = useState(false);
-    const token = typeof window !== "undefined" ? window.localStorage.getItem('token') : null;
 
     const signIn = useCallback(async (username: string, password: string) => {
-        return await axios.post('http://localhost:3000/api/auth/signin', {
+        return await axios.post(`${process.env.API_URL}/api/auth/signin`, {
             username: username,
             password: password
         }, {
@@ -32,8 +32,8 @@ export default function SignIn(){
         
         setButtonClicked(true);
         signIn(username, password).then((res) => {
-            typeof window !== 'undefined' ? window.localStorage.setItem('token', res.data.token) : null;
-            route.push('/');
+            login(res.data.token);
+            route.replace('/');
         }).catch((error: AxiosError) => {
             const err = error.response?.data as {message: string};
             setErrorMessage(err.message);
@@ -41,7 +41,6 @@ export default function SignIn(){
         })
     }
 
-    if(token !== null) return route.push('/');
     return <div className="w-screen h-screen grid place-items-center">
         <div className="w-[22rem] shadow-md p-6 rounded-xl">
             <div>
@@ -57,5 +56,5 @@ export default function SignIn(){
                 <Button label={buttonClicked ? 'Loading ...' : 'Masuk'} onClick={() => submit()} disabled={buttonClicked ? true : false}/>
             </div>
         </div>
-    </div>
+    </div>;
 }

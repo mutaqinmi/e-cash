@@ -5,14 +5,15 @@ import HDivider from "./h-divider";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { logout } from "@/utils/auth";
 
-export default function SideBar(props: {index: Dispatch<SetStateAction<number>>; expand: Dispatch<SetStateAction<boolean>>; expanded: boolean}) {
+export default function SideBar(props: {index: Dispatch<SetStateAction<number>>; expand: Dispatch<SetStateAction<boolean>>; expanded: boolean; loading: Dispatch<SetStateAction<boolean>>;}) {
     const route = useRouter();
     const [index, setIndex] = useState(0);
-    const token = typeof window !== "undefined" ? window.localStorage.getItem('token') : null;
+    const token = typeof window !== 'undefined' ? window.localStorage.getItem('token') : null;
 
     const signOut = useCallback(async (token: string) => {
-        return await axios.get('http://localhost:3000/api/auth/signout', {
+        return await axios.get(`${process.env.API_URL}/api/auth/signout`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token
@@ -23,9 +24,10 @@ export default function SideBar(props: {index: Dispatch<SetStateAction<number>>;
     const signOutHandler = () => {
         const confirmExit = confirm('Apakah anda yakin ingin keluar?');
         if(!confirmExit) return;
+        props.loading(true);
         signOut(token!).then((res) => {
-            typeof window !== 'undefined' ? window.localStorage.removeItem('token') : null;
-            route.push('/signin');
+            logout();
+            route.replace('/signin');
         })
     }
 

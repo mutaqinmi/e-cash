@@ -48,13 +48,17 @@ export default function Dashboard(){
             <h2 className="text-2xl font-bold">Riwayat Transaksi</h2>
             <span className="text-sm">Menampilkan riwayat transaksi berdasarkan rentang waktu.</span>
             <table className="w-full table-auto border-collapse mt-6">
-                <TableHead title={['ID Transaksi', 'Waktu', 'Total Harga']}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
-                <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                <thead>
+                    <TableHead title={['ID Transaksi', 'Waktu', 'Total Harga']}/>
+                </thead>
+                <tbody>
+                    <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                    <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                    <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                    <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                    <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                    <TableRow data={['T-1234567', '2021-08-01', 'Rp. 300.000']} onClick={() => setShowDetail(true)}/>
+                </tbody>
             </table>
         </div>
         <DetailTransaction show={showDetail} setshow={setShowDetail}/>

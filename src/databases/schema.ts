@@ -39,5 +39,6 @@ export const products = pgTable('products', {
     product_name: varchar('product_name', {length: 50}),
     price: integer('price').default(0),
     stock: integer('stock').default(0),
+    category: varchar('category', {length: 20}),
     product_image: varchar('product_image', {length: 255}).default('product.png'),
 })

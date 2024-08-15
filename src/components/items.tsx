@@ -1,13 +1,31 @@
 import numberFormatter from "@/app/number-formatter";
-import { DotsThreeOutlineVertical, Pencil, Trash } from "@phosphor-icons/react";
-import { useState } from "react";
+import { DotsThreeOutlineVertical } from "@phosphor-icons/react";
+import Image from "next/image";
+import { Dispatch, SetStateAction, useState } from "react";
 
-export default function Items(props: {id: string; name: string; price: number; stock: number; category: string}){
+export default function Items(props: {id: string; name: string; price: number; stock: number; category: string; image: string; isSearchResult?: boolean; setSearchValue?: Dispatch<SetStateAction<string>>; setCart: Dispatch<SetStateAction<any[]>>}){
     const [showContext, setShowContext] = useState(false);
 
-    return <div className="p-4 rounded-lg shadow-lg flex gap-4 justify-between relative">
+    const addToCart = () => {
+        if(!props.isSearchResult) return;
+        const cart = window.localStorage.getItem('cart');
+        const cartList: any[] = JSON.parse(cart!);
+        cartList.push({
+            id: props.id,
+            name: props.name,
+            price: props.price,
+            quantity: 1
+        });
+        window.localStorage.setItem('cart', JSON.stringify(cartList));
+        props.setCart(cartList);
+        props.setSearchValue!('');
+    }
+
+    return <div className="p-4 rounded-lg shadow-lg flex gap-4 justify-between relative bg-white select-none" onClick={addToCart}>
         <div className="flex gap-4">
-            <div className="bg-gray-400 w-32 h-32 rounded-md"></div>
+            <div className="w-32 h-32 rounded-md">
+                <Image src={`/product-image/${props.image}`} alt={props.name} width={0} height={0} className="w-full h-full bg-cover bg-center" unoptimized/>
+            </div>
             <div className="flex flex-col justify-between">
                 <div>
                     <span className="text-sm text-gray-400">{props.id}</span>
@@ -18,12 +36,12 @@ export default function Items(props: {id: string; name: string; price: number; s
             </div>
         </div>
         <div className="flex flex-col items-end justify-between">
-            <DotsThreeOutlineVertical size={20} onClick={() => setShowContext(!showContext)}/>
+            {props.isSearchResult ? <div></div> : <DotsThreeOutlineVertical size={20} onClick={() => setShowContext(!showContext)}/>}
             <span>Stok: {props.stock}</span>
         </div>
-        <div className={`w-fit bg-white flex-col absolute top-4 right-12 ${showContext ? 'flex' : 'hidden'}`}>
+        {props.isSearchResult ? null : <div className={`w-fit bg-white flex-col absolute top-4 right-12 ${showContext ? 'flex' : 'hidden'}`}>
             <button className="p-2 w-full hover:bg-gray-300 select-none">Edit Barang</button>
             <button className="p-2 w-full hover:bg-gray-300 text-red-500 select-none">Hapus Barang</button>
-        </div>
+        </div>}
     </div>
 }

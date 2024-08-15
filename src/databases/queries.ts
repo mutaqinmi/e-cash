@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { eq, ilike } from 'drizzle-orm';
 import { client, db } from './connection';
 import * as table from './schema';
 
@@ -17,4 +17,8 @@ export const signOut = async (token: string) => {
 
 export const getEmployee = async (username: string) => {
     return await db.select().from(table.employee).where(eq(table.employee.username, username));
+}
+
+export const searchProduct = async (search: string) => {
+    return await db.select().from(table.products).where(ilike(table.products.product_name, `%${search}%`));
 }
