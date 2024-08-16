@@ -11,6 +11,7 @@ export default function Cashier(){
     const [search, setSearch] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [cart, setCart] = useState<any[]>([]);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         const cart = window.localStorage.getItem('cart');
@@ -20,6 +21,10 @@ export default function Cashier(){
         } else {
             const cartList: any[] = JSON.parse(cart!);
             setCart(cartList);
+
+            if(cartList.length > 0){
+                setTotal(cartList.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0));
+            }
         }
     }, []);
 
@@ -40,7 +45,7 @@ export default function Cashier(){
             <Search placeholder="Cari Produk atau Barang ..." value={search} setvalue={setSearch} onChange={handleSearch}/>
             {search.length > 0 ? <div className="absolute mt-4 w-full p-8 bg-white rounded-xl grid grid-cols-2 gap-4 border border-gray-200">
                 {searchResult.length === 0 ? <span className="text-center block text-sm text-gray-500 col-span-2">Produk Tidak Ditemukan!</span> : searchResult.map((item: any) => {
-                    return <Items key={item.product_id} id={item.product_id} name={item.product_name} price={item.price} stock={item.stock} category={item.category} image={item.product_image} isSearchResult setSearchValue={setSearch} setCart={setCart}/>
+                    return <Items key={item.product_id} id={item.product_id} name={item.product_name} price={item.price} stock={item.stock} category={item.category} image={item.product_image} isSearchResult setSearchValue={setSearch} setCart={setCart} setTotal={setTotal}/>
                 })}
             </div> : null}
         </div>
@@ -56,13 +61,13 @@ export default function Cashier(){
                     </thead>
                     <tbody>
                         {cart.map((item: any, index: number) => {
-                            return <TableRow key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} index={index} setCart={setCart}/>
+                            return <TableRow key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} index={index} setCart={setCart} setTotal={setTotal}/>
                         })}
                     </tbody>
                 </table>
             </div>
             <div className="w-full p-4 col-span-1 rounded-lg h-fit shadow-md">
-                <PaymentInfo total={300000}/>
+                <PaymentInfo total={total}/>
             </div>
         </div>}
     </>

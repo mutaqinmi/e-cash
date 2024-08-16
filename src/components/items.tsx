@@ -3,7 +3,7 @@ import { DotsThreeOutlineVertical } from "@phosphor-icons/react";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 
-export default function Items(props: {id: string; name: string; price: number; stock: number; category: string; image: string; isSearchResult?: boolean; setSearchValue?: Dispatch<SetStateAction<string>>; setCart: Dispatch<SetStateAction<any[]>>}){
+export default function Items(props: {id: string; name: string; price: number; stock: number; category: string; image: string; isSearchResult?: boolean; setSearchValue?: Dispatch<SetStateAction<string>>; setCart: Dispatch<SetStateAction<any[]>>; setTotal: Dispatch<SetStateAction<number>>}){
     const [showContext, setShowContext] = useState(false);
 
     const addToCart = () => {
@@ -19,6 +19,7 @@ export default function Items(props: {id: string; name: string; price: number; s
         window.localStorage.setItem('cart', JSON.stringify(cartList));
         props.setCart(cartList);
         props.setSearchValue!('');
+        props.setTotal(cartList.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0));
     }
 
     return <div className="p-4 rounded-lg shadow-md flex gap-4 justify-between relative bg-white select-none" onClick={addToCart}>

@@ -3,7 +3,7 @@ import IncrementCounter from "./increment-counter";
 import numberFormatter from "@/app/number-formatter";
 import { Dispatch, SetStateAction, useState } from "react";
 
-export default function TableRow(props: {id: number, name: string, price: number, quantity?: number, index: number, setCart: Dispatch<SetStateAction<any[]>>}){
+export default function TableRow(props: {id: number; name: string; price: number; quantity?: number; index: number; setCart: Dispatch<SetStateAction<any[]>>; setTotal: Dispatch<SetStateAction<number>>}) {
     const [qty, setQty] = useState(props.quantity!);
 
     const removeItem = () => {
@@ -12,6 +12,7 @@ export default function TableRow(props: {id: number, name: string, price: number
         cartList.splice(props.index, 1);
         window.localStorage.setItem('cart', JSON.stringify(cartList));
         props.setCart(cartList);
+        props.setTotal(cartList.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0));
     }
 
     const updateItemQty = (qty: number) => {
@@ -20,6 +21,7 @@ export default function TableRow(props: {id: number, name: string, price: number
         cartList[props.index].quantity = qty;
         window.localStorage.setItem('cart', JSON.stringify(cartList));
         props.setCart(cartList);
+        props.setTotal(cartList.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0));
     }
 
     return <tr key={props.id}>
