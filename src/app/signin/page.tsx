@@ -13,6 +13,15 @@ export default function SignIn(){
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [buttonClicked, setButtonClicked] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        if(isUserLoggedIn()){
+            setIsLoggedIn(true);
+            return route.replace('/');
+        }
+        setIsLoggedIn(false);
+    }, [])
 
     const signIn = useCallback(async (username: string, password: string) => {
         return await axios.post(`${process.env.API_URL}/api/auth/signin`, {
@@ -41,7 +50,7 @@ export default function SignIn(){
         })
     }
 
-    return <div className="w-screen h-screen grid place-items-center">
+    return isLoggedIn ? null : <div className="w-screen h-screen grid place-items-center">
         <div className="w-[22rem] shadow-md p-6 rounded-xl">
             <div>
                 <h1 className="font-semibold text-3xl">Masuk</h1>

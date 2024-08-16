@@ -3,6 +3,7 @@ import PaymentInfo from "@/components/payment-info";
 import Search from "@/components/search";
 import TableHead from "@/components/table-head";
 import TableRow from "@/components/table-row-cashier";
+import { Storefront } from "@phosphor-icons/react";
 import axios, { AxiosError } from "axios";
 import { useCallback, useEffect, useState } from "react";
 
@@ -43,8 +44,12 @@ export default function Cashier(){
                 })}
             </div> : null}
         </div>
-        <div className="grid grid-cols-3 gap-6 mt-6">
-            <div className="w-full h-fit p-4 col-span-2 rounded-lg shadow-lg">
+        {cart.length === 0 ? <div className="w-full h-[30rem] mt-6 flex flex-col justify-center items-center">
+            <div className="p-4 bg-blue-500 rounded-full text-white"><Storefront size={30}/></div>
+            <h1 className="text-2xl font-bold mt-4">Mulai Transaksi</h1>
+            <span className="text-sm mt-2 text-gray-400">Ketik nama barang pada kolom pencarian untuk memulai.</span>
+        </div> : <div className="grid grid-cols-3 gap-6 mt-6">
+            <div className="w-full h-fit p-4 col-span-2 rounded-lg shadow-md">
                 <table className="w-full table-auto border-collapse">
                     <thead>
                         <TableHead title={['ID', 'Nama Produk', 'Harga', 'Jumlah', 'Total Harga']}/>
@@ -56,9 +61,9 @@ export default function Cashier(){
                     </tbody>
                 </table>
             </div>
-            <div className="w-full p-4 col-span-1 rounded-lg shadow-lg h-fit">
+            <div className="w-full p-4 col-span-1 rounded-lg h-fit shadow-md">
                 <PaymentInfo total={300000}/>
             </div>
-        </div>
+        </div>}
     </>
 }

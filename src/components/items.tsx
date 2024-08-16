@@ -21,7 +21,7 @@ export default function Items(props: {id: string; name: string; price: number; s
         props.setSearchValue!('');
     }
 
-    return <div className="p-4 rounded-lg shadow-lg flex gap-4 justify-between relative bg-white select-none" onClick={addToCart}>
+    return <div className="p-4 rounded-lg shadow-md flex gap-4 justify-between relative bg-white select-none" onClick={addToCart}>
         <div className="flex gap-4">
             <div className="w-32 h-32 rounded-md">
                 <Image src={`/product-image/${props.image}`} alt={props.name} width={0} height={0} className="w-full h-full bg-cover bg-center" unoptimized/>
