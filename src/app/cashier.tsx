@@ -1,17 +1,19 @@
 import Items from "@/components/items";
 import PaymentInfo from "@/components/payment-info";
+import PaymentSuccessfulDialog from "@/components/payment-successful-dialog";
 import Search from "@/components/search";
 import TableHead from "@/components/table-head";
 import TableRow from "@/components/table-row-cashier";
 import { Storefront } from "@phosphor-icons/react";
 import axios, { AxiosError } from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 
-export default function Cashier(){
+export default function Cashier(props: {loading: Dispatch<SetStateAction<boolean>>}) {
     const [search, setSearch] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [cart, setCart] = useState<any[]>([]);
     const [total, setTotal] = useState(0);
+    const [successDialog, setSuccessDialog] = useState(false);
 
     useEffect(() => {
         const cart = window.localStorage.getItem('cart');
@@ -41,6 +43,7 @@ export default function Cashier(){
     }
 
     return <>
+        {successDialog ? <PaymentSuccessfulDialog setShowSuccessDialog={setSuccessDialog}/> : null}
         <div className="relative">
             <Search placeholder="Cari Produk atau Barang ..." value={search} setvalue={setSearch} onChange={handleSearch}/>
             {search.length > 0 ? <div className="absolute mt-4 w-full p-8 bg-white rounded-xl grid grid-cols-2 gap-4 border border-gray-200">
@@ -67,7 +70,7 @@ export default function Cashier(){
                 </table>
             </div>
             <div className="w-full p-4 col-span-1 rounded-lg h-fit shadow-md">
-                <PaymentInfo total={total}/>
+                <PaymentInfo total={total} setSuccessDialog={setSuccessDialog} setCart={setCart} setTotal={setTotal}/>
             </div>
         </div>}
     </>

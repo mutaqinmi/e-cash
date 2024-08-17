@@ -27,7 +27,7 @@ export default function Main(){
     const body = () => {
         switch (index){
             case 0:
-                return <Cashier/>
+                return <Cashier loading={setLoading}/>
             case 1:
                 return <ManageItems/>;
             case 2:

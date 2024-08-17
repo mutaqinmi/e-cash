@@ -12,7 +12,7 @@ export default function ManageItems(){
     const [search, setSearch] = useState('');
 
     return <>
-        <Search placeholder="Cari Produk atau Barang ..." value={setSearch} />
+        <Search placeholder="Cari Produk atau Barang ..." value={search} setvalue={setSearch} />
         <div className="mt-6 flex justify-between">
             <div className="flex gap-3">
                 <ChoiceChip label="Semua" active={choice === 0 ? true : false} onClick={() => {setChoice(0)}}/>
@@ -29,6 +29,6 @@ export default function ManageItems(){
             <Items id="P-122245" name="Milku Coklat" price={3500} stock={67} category="Minuman" image="Milku.jpg"/>
             <Items id="P-122245" name="Milku Coklat" price={3500} stock={67} category="Minuman" image="Milku.jpg"/>
         </div>
-        {showDialog ? <AddItems show={showDialog ? true : false} setShow={setShowDialog}/> : null}
+        {showDialog ? <AddItems setShow={setShowDialog}/> : null}
     </>
 }

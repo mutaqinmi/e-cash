@@ -1,10 +1,11 @@
 'use client'
 import numberFormatter from "@/app/number-formatter";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Button from "./button";
 
-export default function PaymentInfo(props: {total: number}){
+export default function PaymentInfo(props: {total: number; setSuccessDialog: Dispatch<SetStateAction<boolean>>; setCart: Dispatch<SetStateAction<any[]>>; setTotal: Dispatch<SetStateAction<number>>}) {
     const [pay, setPay] = useState('');
+    
     const counter = () => {
         const totalPayment = parseInt(pay.slice(4).split('.').join(''));
         const totalExchange = totalPayment - props.total;
@@ -14,6 +15,13 @@ export default function PaymentInfo(props: {total: number}){
         }
         
         return '0';
+    }
+
+    const transaction = () => {
+        window.localStorage.setItem('cart', JSON.stringify([]));
+        props.setCart([]);
+        props.setTotal(0);
+        props.setSuccessDialog(true);
     }
 
     return <div>
@@ -31,6 +39,6 @@ export default function PaymentInfo(props: {total: number}){
                 <span className="text-xl font-semibold">{counter()}</span>
             </div>
         </div>
-        <Button label="Bayar" className="mt-4" disabled={counter() === '0' || pay === '' || pay === 'Rp. ' ? true : false}/>
+        <Button label="Bayar" className="mt-4" onClick={() => transaction()} disabled={counter() === '0' || pay === '' || pay === 'Rp. ' ? true : false}/>
     </div>
 }

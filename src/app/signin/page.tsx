@@ -56,7 +56,7 @@ export default function SignIn(){
                 <h1 className="font-semibold text-3xl">Masuk</h1>
                 <p className="text-sm mt-1">Masuk ke akun anda untuk melanjutkan.</p>
             </div>
-            <span className={`mt-6 text-center bg-red-300 text-red-900 p-3 rounded-lg text-sm ${errorMessage === '' ? 'hidden' : 'block'}`}>{errorMessage}</span>
+            {errorMessage === '' ? null : <span className="mt-6 text-center bg-red-300 text-red-900 p-3 rounded-lg text-sm">{errorMessage}</span>}
             <div className="mt-8">
                 <InputText label="Username" value={setUsername}/>
                 <InputPassword label="Password" value={setPassword}/>

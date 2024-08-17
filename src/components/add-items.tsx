@@ -3,12 +3,12 @@ import InputText from "./input-text";
 import { CloudArrowUp, X } from "@phosphor-icons/react";
 import Button from "./button";
 
-export default function AddItems(props: {show: boolean; setShow: Dispatch<SetStateAction<boolean>>}){
+export default function AddItems(props: {setShow: Dispatch<SetStateAction<boolean>>}){
     const [name, setName] = useState('');
     const [stock, setStock] = useState('');
     const [price, setPrice] = useState('');
 
-    return <div className={`w-screen h-screen bg-gray-500 bg-opacity-50 fixed top-0 left-0 z-50 flex justify-center items-center ${props.show ? 'flex' : 'hidden'}`}>
+    return <div className="w-screen h-screen bg-gray-500 bg-opacity-50 fixed top-0 left-0 z-50 flex justify-center items-center">
         <div className="bg-white w-96 p-4 rounded-xl relative">
             <X className="absolute top-5 right-5" onClick={() => {props.setShow(false)}}/>
             <h2 className="text-xl font-semibold">Tambah Barang</h2>

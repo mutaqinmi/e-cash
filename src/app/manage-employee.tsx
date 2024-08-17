@@ -8,8 +8,10 @@ import { useState } from "react";
 
 export default function ManageEmployee(){
     const [showDialog, setShowDialog] = useState(false);
+    const [search, setSearch] = useState('');
+
     return <>
-        <Search placeholder="Cari petugas ..."/>
+        <Search placeholder="Cari petugas ..." value={search} setvalue={setSearch}/>
         <div className="grid grid-cols-3 gap-6 mt-6">
             <div className="w-full h-fit p-4 col-span-2 rounded-lg shadow-lg">
                 <Button label="Tambah Petugas +" className="!w-fit" onClick={() => setShowDialog(true)}/>
@@ -27,7 +29,7 @@ export default function ManageEmployee(){
             </div>
             {
                 showDialog ?
-                <div className={`bg-gray-500 bg-opacity-50 w-screen h-screen fixed top-0 left-0 z-50 justify-center items-center ${showDialog ? 'flex' : 'hidden'}`}>
+                <div className="bg-gray-500 bg-opacity-50 w-screen h-screen fixed top-0 left-0 z-50 flex justify-center items-center">
                     <AddEmployee setshow={setShowDialog}/>
                 </div> : null
             }
