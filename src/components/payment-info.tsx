@@ -1,10 +1,23 @@
 'use client'
 import numberFormatter from "@/app/number-formatter";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import Button from "./button";
+import axios, { AxiosError } from "axios";
 
-export default function PaymentInfo(props: {total: number; setSuccessDialog: Dispatch<SetStateAction<boolean>>; setCart: Dispatch<SetStateAction<any[]>>; setTotal: Dispatch<SetStateAction<number>>}) {
+export default function PaymentInfo(props: {total: number; setSuccessDialog: Dispatch<SetStateAction<boolean>>; setCart: Dispatch<SetStateAction<any[]>>; setTotal: Dispatch<SetStateAction<number>>; setLoading: Dispatch<SetStateAction<boolean>>}) {
     const [pay, setPay] = useState('');
+
+    const createTransaction = useCallback(async (data: any[], total: number) => {
+        return await axios.post(`${process.env.API_URL}/api/transaction`, {
+            data: data,
+            total: total,
+        }, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${window.localStorage.getItem('token')}`
+            }
+        })
+    }, [])
     
     const counter = () => {
         const totalPayment = parseInt(pay.slice(4).split('.').join(''));
@@ -18,10 +31,16 @@ export default function PaymentInfo(props: {total: number; setSuccessDialog: Dis
     }
 
     const transaction = () => {
-        window.localStorage.setItem('cart', JSON.stringify([]));
-        props.setCart([]);
-        props.setTotal(0);
-        props.setSuccessDialog(true);
+        props.setLoading(true);
+        createTransaction(JSON.parse(window.localStorage.getItem('cart')!), props.total).then((res) => {
+            window.localStorage.setItem('cart', JSON.stringify([]));
+            props.setCart([]);
+            props.setTotal(0);
+            props.setSuccessDialog(true);
+            props.setLoading(false);
+        }).catch((err: AxiosError) => {
+            console.log(err);
+        })
     }
 
     return <div>

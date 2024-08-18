@@ -11,8 +11,8 @@ export default function Items(props: {id: string; name: string; price: number; s
         const cart = window.localStorage.getItem('cart');
         const cartList: any[] = JSON.parse(cart!);
         cartList.push({
-            id: props.id,
-            name: props.name,
+            product_id: props.id,
+            product_name: props.name,
             price: props.price,
             quantity: 1
         });

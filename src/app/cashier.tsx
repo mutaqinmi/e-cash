@@ -64,13 +64,13 @@ export default function Cashier(props: {loading: Dispatch<SetStateAction<boolean
                     </thead>
                     <tbody>
                         {cart.map((item: any, index: number) => {
-                            return <TableRow key={item.id} id={item.id} name={item.name} price={item.price} quantity={item.quantity} index={index} setCart={setCart} setTotal={setTotal}/>
+                            return <TableRow key={item.product_id} id={item.product_id} name={item.product_name} price={item.price} quantity={item.quantity} index={index} setCart={setCart} setTotal={setTotal}/>
                         })}
                     </tbody>
                 </table>
             </div>
             <div className="w-full p-4 col-span-1 rounded-lg h-fit shadow-md">
-                <PaymentInfo total={total} setSuccessDialog={setSuccessDialog} setCart={setCart} setTotal={setTotal}/>
+                <PaymentInfo total={total} setSuccessDialog={setSuccessDialog} setCart={setCart} setTotal={setTotal} setLoading={props.loading}/>
             </div>
         </div>}
     </>
