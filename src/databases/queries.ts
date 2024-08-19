@@ -39,6 +39,21 @@ export const getProductsByCategory = async (category: string) => {
     return await db.select().from(table.products).where(eq(table.products.category, category));
 }
 
+export const addProduct = async (product_id: string, product_name: string, stock: number, price: number, category: string, product_image: string) => {
+    return await db.insert(table.products).values({
+        product_id: product_id,
+        product_name: product_name,
+        stock: stock,
+        price: price,
+        category: category,
+        product_image: product_image
+    });
+}
+
+export const deleteProduct = async (product_id: string) => {
+    return await db.delete(table.products).where(eq(table.products.product_id, product_id));
+}
+
 export const createTransaction = async (transaction_id: string, employee_id: number, total: number) => {
     return await db.insert(table.transactions).values({
         transaction_id: transaction_id,

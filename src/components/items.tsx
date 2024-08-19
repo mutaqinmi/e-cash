@@ -1,9 +1,10 @@
 import numberFormatter from "@/app/number-formatter";
 import { DotsThreeOutlineVertical } from "@phosphor-icons/react";
+import axios from "axios";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 
-export default function Items(props: {id: string; name: string; price: number; stock: number; category: string; image: string; isSearchResult?: boolean; setSearchValue?: Dispatch<SetStateAction<string>>; setCart?: Dispatch<SetStateAction<any[]>>; setTotal?: Dispatch<SetStateAction<number>>}){
+export default function Items(props: {id: string; name: string; price: number; stock: number; category: string; image: string; isSearchResult?: boolean; setSearchValue?: Dispatch<SetStateAction<string>>; setCart?: Dispatch<SetStateAction<any[]>>; setTotal?: Dispatch<SetStateAction<number>>; setProductList?: Dispatch<SetStateAction<any[]>>}) {
     const [showContext, setShowContext] = useState(false);
 
     const addToCart = () => {
@@ -22,10 +23,44 @@ export default function Items(props: {id: string; name: string; price: number; s
         props.setTotal!(cartList.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0));
     }
 
+    const deleteProduct = useCallback(async (product_id: string) => {
+        return await axios.delete(`${process.env.API_URL}/api/product?delete=${product_id}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+    }, [])
+
+    const products = useCallback(async () => {
+        return await axios.get(`${process.env.API_URL}/api/product`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+    }, []);
+
+    const deleteProductHandler = (product_id: string) => {
+        if(props.isSearchResult) return;
+        const confirmDelete = confirm('Apakah anda yakin ingin menghapus barang ini?');
+        if(!confirmDelete) return;
+        deleteProduct(product_id).then((res) => {
+            alert('Berhasil menghapus barang!');
+            products().then((res) => {
+                props.setProductList!(res.data.data);
+            }).catch((err) => {
+                console.log(err);
+            })
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
     return <div className="p-4 rounded-lg shadow-md flex gap-4 justify-between relative bg-white select-none" onClick={addToCart}>
         <div className="flex gap-4">
             <div className="w-32 h-32 rounded-md">
-                <Image src={`/product-image/${props.image}`} alt={props.name} width={0} height={0} className="w-full h-full bg-cover bg-center" unoptimized/>
+                <Image src={`/product-image/${props.image}`} alt={props.name} width={0} height={0} className="w-full h-full object-cover bg-cover bg-center" unoptimized/>
             </div>
             <div className="flex flex-col justify-between">
                 <div>
@@ -42,7 +77,7 @@ export default function Items(props: {id: string; name: string; price: number; s
         </div>
         {props.isSearchResult ? null : <div className={`w-fit bg-white flex-col absolute top-4 right-12 ${showContext ? 'flex' : 'hidden'}`}>
             <button className="p-2 w-full hover:bg-gray-300 select-none">Edit Barang</button>
-            <button className="p-2 w-full hover:bg-gray-300 text-red-500 select-none">Hapus Barang</button>
+            <button className="p-2 w-full hover:bg-gray-300 text-red-500 select-none" onClick={() => deleteProductHandler(props.id)}>Hapus Barang</button>
         </div>}
     </div>
 }

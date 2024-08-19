@@ -43,7 +43,7 @@ export default function Main(){
         {loading ? <Loading/> : null}
         <div className="w-screen h-screen fixed z-50 bg-white flex justify-center items-center sm:hidden">Open in desktop for best experience.</div>
         <SideBar index={setIndex} expand={setExpand} expanded={expand} loading={setLoading}/>
-        <div className={`${expand ?  'pl-80' : 'pl-28'} transition-all ease-in-out duration-300 pt-6 pr-6 w-full flex justify-center`}>
+        <div className={`${expand ?  'pl-80' : 'pl-28'} transition-all ease-in-out duration-300 pt-6 pr-6 pb-6 w-full flex justify-center`}>
             <div className={expand ? 'w-11/12' : 'w-4/5'}>{body()}</div>
         </div>
     </div> : null;

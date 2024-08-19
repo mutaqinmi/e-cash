@@ -4,14 +4,14 @@ import Button from "@/components/button";
 import ChoiceChip from "@/components/choice-chip";
 import Items from "@/components/items";
 import Search from "@/components/search";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useCallback, useEffect, useState } from "react";
 
 export default function ManageItems(){
     const [showDialog, setShowDialog] = useState(false);
     const [choice, setChoice] = useState(0);
     const [search, setSearch] = useState('');
-    const [productList, setProductList] = useState([]);
+    const [productList, setProductList] = useState<AxiosResponse[]>([]);
 
     const products = useCallback(async () => {
         return await axios.get(`${process.env.API_URL}/api/product`, {
@@ -94,9 +94,9 @@ export default function ManageItems(){
         </div>
         <div className="w-full mt-6 grid grid-cols-2 gap-6">
             {productList.length > 0 ? productList.map((item: any) => {
-                return <Items key={item.product_id} id={item.product_id} name={item.product_name} price={item.price} stock={item.stock} category={item.category} image={item.product_image}/>
+                return <Items key={item.product_id} id={item.product_id} name={item.product_name} price={item.price} stock={item.stock} category={item.category} image={item.product_image} setProductList={setProductList}/>
             }) : <div className="w-full h-96 flex justify-center items-center col-span-2">Barang tidak ditemukan!</div>}
         </div>
-        {showDialog ? <AddItems setShow={setShowDialog}/> : null}
+        {showDialog ? <AddItems setShow={setShowDialog} setProductList={setProductList}/> : null}
     </>
 }
