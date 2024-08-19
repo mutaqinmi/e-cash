@@ -27,6 +27,18 @@ export const searchProduct = async (search: string) => {
     return await db.select().from(table.products).where(ilike(table.products.product_name, `%${search}%`));
 }
 
+export const getProducts = async () => {
+    return await db.select().from(table.products);
+}
+
+export const getProduct = async (product_id: string) => {
+    return await db.select().from(table.products).where(eq(table.products.product_id, product_id));
+}
+
+export const getProductsByCategory = async (category: string) => {
+    return await db.select().from(table.products).where(eq(table.products.category, category));
+}
+
 export const createTransaction = async (transaction_id: string, employee_id: number, total: number) => {
     return await db.insert(table.transactions).values({
         transaction_id: transaction_id,

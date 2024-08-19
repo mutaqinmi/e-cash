@@ -31,10 +31,10 @@ export default function Cashier(props: {loading: Dispatch<SetStateAction<boolean
     }, []);
 
     const searchProduct = useCallback(async (query: string) => {
-        return await axios.get(`${process.env.API_URL}/api/product/search?query=${query.split(' ').join('+')}`);
+        return await axios.get(`${process.env.API_URL}/api/product?search=${query.split(' ').join('+')}`);
     }, []);
 
-    const handleSearch = () => {
+    const handleSearch = (search: string) => {
         searchProduct(search).then((res) => {
             setSearchResult(res.data.data);
         }).catch((err: AxiosError) => {

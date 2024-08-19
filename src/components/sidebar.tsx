@@ -27,6 +27,7 @@ export default function SideBar(props: {index: Dispatch<SetStateAction<number>>;
         props.loading(true);
         signOut(token!).then((res) => {
             logout();
+            window.localStorage.clear();
             route.replace('/signin');
         })
     }

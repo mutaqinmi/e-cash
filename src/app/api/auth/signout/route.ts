@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
             message: "error",
             details: error
         }, {
-            status: 400
+            status: 500
         });
     }
 }

@@ -54,7 +54,7 @@ export async function POST(req: NextRequest){
             message: "error",
             details: error
         }, {
-            status: 400
+            status: 500
         })
     }
 }
