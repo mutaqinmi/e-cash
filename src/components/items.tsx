@@ -3,9 +3,13 @@ import { DotsThreeOutlineVertical } from "@phosphor-icons/react";
 import axios from "axios";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import UploadItems from "./upload-item";
+import UpdateItems from "./update-item";
 
 export default function Items(props: {id: string; name: string; price: number; stock: number; category: string; image: string; isSearchResult?: boolean; setSearchValue?: Dispatch<SetStateAction<string>>; setCart?: Dispatch<SetStateAction<any[]>>; setTotal?: Dispatch<SetStateAction<number>>; setProductList?: Dispatch<SetStateAction<any[]>>}) {
     const [showContext, setShowContext] = useState(false);
+    const [showUploadDialog, setShowUploadDialog] = useState(false);
+    const [showUpdateDialog, setShowUpdateDialog] = useState(false);
 
     const addToCart = () => {
         if(!props.isSearchResult) return;
@@ -46,7 +50,6 @@ export default function Items(props: {id: string; name: string; price: number; s
         const confirmDelete = confirm('Apakah anda yakin ingin menghapus barang ini?');
         if(!confirmDelete) return;
         deleteProduct(product_id).then((res) => {
-            alert('Berhasil menghapus barang!');
             products().then((res) => {
                 props.setProductList!(res.data.data);
             }).catch((err) => {
@@ -75,9 +78,12 @@ export default function Items(props: {id: string; name: string; price: number; s
             {props.isSearchResult ? <div></div> : <DotsThreeOutlineVertical size={20} onClick={() => setShowContext(!showContext)}/>}
             <span>Stok: {props.stock}</span>
         </div>
-        {props.isSearchResult ? null : <div className={`w-fit bg-white flex-col absolute top-4 right-12 ${showContext ? 'flex' : 'hidden'}`}>
-            <button className="p-2 w-full hover:bg-gray-300 select-none">Edit Barang</button>
-            <button className="p-2 w-full hover:bg-gray-300 text-red-500 select-none" onClick={() => deleteProductHandler(props.id)}>Hapus Barang</button>
+        {props.isSearchResult ? null : <div className={`w-fit bg-white flex-col absolute top-4 right-12 text-sm ${showContext ? 'flex' : 'hidden'}`}>
+            <button className="p-2 w-full hover:bg-gray-300 select-none" onClick={() => {setShowUploadDialog(true); setShowContext(false)}}>Ubah Gambar</button>
+            <button className="p-2 w-full hover:bg-gray-300 select-none" onClick={() => {setShowUpdateDialog(true); setShowContext(false)}}>Edit Barang</button>
+            <button className="p-2 w-full hover:bg-gray-300 text-red-500 select-none" onClick={() => {deleteProductHandler(props.id); setShowContext(false)}}>Hapus Barang</button>
         </div>}
+        {showUploadDialog ? <UploadItems id={props.id} image={props.image} setShow={setShowUploadDialog} setProductList={props.setProductList!}/> : null}
+        {showUpdateDialog ? <UpdateItems id={props.id} name={props.name} stock={props.stock.toString()} price={props.price.toString()} category={props.category} setShow={setShowUpdateDialog} setProductList={props.setProductList!}/> : null}
     </div>
 }

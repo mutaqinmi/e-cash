@@ -50,6 +50,15 @@ export const addProduct = async (product_id: string, product_name: string, stock
     });
 }
 
+export const updateProduct = async (product_id: string, product_name: string, stock: number, price: number, category: string) => {
+    return await db.update(table.products).set({
+        product_name: product_name,
+        stock: stock,
+        price: price,
+        category: category
+    }).where(eq(table.products.product_id, product_id));
+}
+
 export const deleteProduct = async (product_id: string) => {
     return await db.delete(table.products).where(eq(table.products.product_id, product_id));
 }

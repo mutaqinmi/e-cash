@@ -9,7 +9,7 @@ export default function DropDown(props: {label: string, items: string[]; value: 
         {isOpen ? <div className="w-full h-28 overflow-auto absolute flex-col z-50">
             {
                 props.items.map((item) => {
-                    return <div className="py-3 px-4 w-full bg-white hover:bg-gray-300" onClick={() => {props.value(item); setIsOpen(false)}}>{item}</div>
+                    return <div key={Math.random()} className="py-3 px-4 w-full bg-white hover:bg-gray-300" onClick={() => {props.value(item); setIsOpen(false)}}>{item}</div>
                 })
             }
         </div> : null}

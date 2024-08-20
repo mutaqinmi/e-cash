@@ -4,7 +4,7 @@ import { CloudArrowUp, Pencil, X } from "@phosphor-icons/react";
 import Button from "./button";
 import DropDown from "./dropdown";
 import Image from "next/image";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 export default function AddItems(props: {setShow: Dispatch<SetStateAction<boolean>>; setProductList: Dispatch<SetStateAction<any[]>>}) {
     const [file, setFile] = useState<FileList | null>();
@@ -38,22 +38,16 @@ export default function AddItems(props: {setShow: Dispatch<SetStateAction<boolea
     }, []);
 
     const submit = (file: File, product_name: string, stock: number, price: number, category: string) => {
-        if(file && product_name && stock && price && category){
-            addItem(file, product_name, stock, price, category).then((res) => {
-                products().then((res) => {
-                    props.setProductList(res.data.data);
-                }).catch((err) => {
-                    console.log(err);
-                })
-                props.setShow(false);
+        addItem(file, product_name, stock, price, category).then((res) => {
+            products().then((res) => {
+                props.setProductList(res.data.data);
             }).catch((err) => {
                 console.log(err);
             })
-
-            return;
-        }
-        
-        return alert('Isi kolom terlebih dahulu!');
+            props.setShow(false);
+        }).catch((error: AxiosError) => {
+            console.log(error)
+        })
     }
 
     return <div className="w-screen h-screen bg-gray-500 bg-opacity-50 fixed top-0 left-0 z-50 flex justify-center items-center">

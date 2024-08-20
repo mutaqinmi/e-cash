@@ -8,7 +8,7 @@ import axios, { AxiosResponse } from "axios";
 import { useCallback, useEffect, useState } from "react";
 
 export default function ManageItems(){
-    const [showDialog, setShowDialog] = useState(false);
+    const [showAddDialog, setShowAddDialog] = useState(false);
     const [choice, setChoice] = useState(0);
     const [search, setSearch] = useState('');
     const [productList, setProductList] = useState<AxiosResponse[]>([]);
@@ -90,13 +90,13 @@ export default function ManageItems(){
                 <ChoiceChip label="Minuman" active={choice === 2 ? true : false} onClick={() => {setChoice(2); handleCategory('Minuman')}}/>
                 <ChoiceChip label="Lainnya" active={choice === 3 ? true : false} onClick={() => {setChoice(3); handleCategory('Lainnya')}}/>
             </div>
-            <Button label="Tambah Barang +" className="max-w-40" onClick={() => {setShowDialog(true)}}/>
+            <Button label="Tambah Barang +" className="max-w-40" onClick={() => {setShowAddDialog(true)}}/>
         </div>
         <div className="w-full mt-6 grid grid-cols-2 gap-6">
             {productList.length > 0 ? productList.map((item: any) => {
                 return <Items key={item.product_id} id={item.product_id} name={item.product_name} price={item.price} stock={item.stock} category={item.category} image={item.product_image} setProductList={setProductList}/>
             }) : <div className="w-full h-96 flex justify-center items-center col-span-2">Barang tidak ditemukan!</div>}
         </div>
-        {showDialog ? <AddItems setShow={setShowDialog} setProductList={setProductList}/> : null}
+        {showAddDialog ? <AddItems setShow={setShowAddDialog} setProductList={setProductList}/> : null}
     </>
 }

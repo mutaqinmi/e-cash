@@ -74,7 +74,47 @@ export async function POST(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
     try {
         const product_id = req.nextUrl.searchParams.get('delete');
+        const product = await query.getProduct(product_id!);
+        await fs.rm(`./public/product-image/${product[0].product_image}`);
         await query.deleteProduct(product_id!);
+        return NextResponse.json({
+            status: 'success',
+        }, {
+            status: 200
+        })
+    } catch (error) {
+        return NextResponse.json({
+            status: 'error',
+            message: error
+        }, {
+            status: 500
+        })
+    }
+}
+
+export async function PATCH(req: NextRequest){
+    try {
+        if(req.nextUrl.searchParams.get('product_image')){
+            const data = await req.formData();
+            const file = data.get('file') as File;
+            const product_image = req.nextUrl.searchParams.get('product_image');
+            const filename = product_image?.split('.')[0] + "." + product_image?.split('.')[1];
+            
+            await fs.rm(`./public/product-image/${product_image}`);
+            const fileBuffer = Buffer.from(await file!.arrayBuffer());
+            await fs.writeFile(`./public/product-image/${filename}`, fileBuffer);
+
+            return NextResponse.json({
+                status: 'success',
+            }, {
+                status: 200
+            })
+        }
+        
+        const product_id = req.nextUrl.searchParams.get('product_id');
+        const data = await req.json();
+        await query.updateProduct(product_id!, data.product_name, data.stock, data.price, data.category);
+
         return NextResponse.json({
             status: 'success',
         }, {
