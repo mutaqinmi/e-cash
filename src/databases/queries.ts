@@ -79,3 +79,39 @@ export const createDetailTransaction = async (transaction_id: string, product_id
         total: total,
     });
 }
+
+export const getEmployees = async () => {
+    return await db.select().from(table.employee);
+}
+
+export const getEmployeeById = async (employee_id: number) => {
+    return await db.select().from(table.employee).where(eq(table.employee.employee_id, employee_id));
+}
+
+export const searchEmployee = async (search: string) => {
+    return await db.select().from(table.employee).where(ilike(table.employee.name, `%${search}%`));
+}
+
+export const addEmployee = async (type: string, name: string, username: string, password: string, phone: string) => {
+    return await db.insert(table.employee).values({
+        type: type,
+        name: name,
+        username: username,
+        password: password,
+        phone: phone
+    });
+}
+
+export const updateEmployee = async (employee_id: number, type: string, name: string, username: string, password: string, phone: string) => {
+    return await db.update(table.employee).set({
+        type: type,
+        name: name,
+        username: username,
+        password: password,
+        phone: phone
+    }).where(eq(table.employee.employee_id, employee_id));
+}
+
+export const deleteEmployee = async (employee_id: number) => {
+    return await db.delete(table.employee).where(eq(table.employee.employee_id, employee_id));
+}
